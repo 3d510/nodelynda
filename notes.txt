@@ -1,0 +1,126 @@
+****Chapter 3
+
+** 3_2: Argument variables with process.argv
++ process is a global variable
++ process.argv is an array with two first elements are: node and current js file
++ can process with process.argv the same as normal js array
+
+** 3_3: Standard input and standard output
+--> communicate with running process
++ to output to console: use process.stdout.write()
++ to add standard input: use following syntax
+     process.stdin.on('data', function(data){
+     	// do something with data
+     })
++ to exit a process:
+	process.exit();
+	process.on('exit', function() {
+		// callback function during exit 
+	})
+
+** 3_4: Global Timing functions
++ setTimeout(function() {}, milliseconds_value)
++ setInterval(function() {}, milliseconds_value)
+
+
+
+***** Chapter 4: Node JS Core Modules
+
+** 04_01: Core Modules
+
++ path module: 
+	path.basename(__filename); --> name of file w/o abs path
+	path.join(__dirname, 'www', 'abc') --> /dir/name/www/abc
++ util module:
+	util.log() --> with timestamps
+
+** 04_02: Collecting info with Readline
++ init: 
+	var rl = readline.createInterface(process.stdin,process.stdout);
++ display question and get answer
+	rl.question("your question", function(answer) {
+		// do something with the answer
+	})
++ some other method:
+	- rl.setPrompt("your prompt");
+	- rl.prompt(); --> ask for input
+	- on answer event
+	rl.on('line', function(line){
+		// do something with the answer
+	})
+	- rl.close()
+	  rl.on('close', function(){// do sth before close})
+
+** 04_03: Handling event with EventEmitter
++ import EventEmitter from events
+	var EventEmiiter = require("events").EventEmitter
++ inheritance in js
+	util.inherits(subclass, baseclass); // in this case: util.inherits(Person, EvenEmitter)
++ basic workflow
+	ben.on("eventName", function(param1, param2){
+		// do something
+	})
+	ben.emit("eventName", param1, param2);
+
+** 04_04: Exporting custom modules
++ in Person.js file under lib, use
+	module.exports = Person
++ in main js file, use
+	var Person = require("./lib/Person");
+
+** 04_05: Creating child process with exec
++ import exec: 
+	var exec = require("child_process").exec;
++ exec("your command", function(err, stdout){
+	if (err) throw
+	// do something
+})
+
+** 04_06: Creating child process with spawn
++ import spawn
+	var spawn = require("child_process").spawn;
++ create child process:
+	var cp = spawn("your command", [list of work to do]); // child process
+	e.g. 
+	var cp = spawn("node", ["alwaysTalking"]); // alwaysTalking.js -- command for process: node alwaysTalking 
+ 	cp.stdout.on('data', function(data) {
+		// do something
+	}) 
+	cp.stdout.write("stop");
+	(refer to process.stdout, process.stdin)
+
+
+
+**** Chapter 5: The File System
+
+**05_01: Listing file directory
++ using fs core module
+	var fs = require("fs");
++ list files synchronously:
+	var files = fs.readdirSync(dir__path);
+	--> block the process during read
++ list files asynchronously:
+	fs.readdir("dir_path", function(err, files) {
+		// do something
+	});
+	--> make use of nodejs asynchronous operation
+
+**05_02: Reading files
++ read files synchronously
+	var contents = fs.readFileSync("file_path", "UTF-8", function(err, contents))
++ read files asynchronously 
+	fs.readFile("file_path". "UTF-8", function(err, contents) {
+		// do something
+	})
+
+**05_03: Writing and appending files
+
+**05_04: Directory creation
+
+**05_05: Rename and remove files
+
+**05_06: Rename and remove directories
+
+**05_07: Readable file streams
+
+**05_08: Writable file streams
