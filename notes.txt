@@ -120,7 +120,20 @@
 **05_05: Rename and remove files
 
 **05_06: Rename and remove directories
++ rename directory using fs
+	fs.rename(oldname, newname) 
+	--> names here are paths that can be used to reformat the directories
++ remove directories
+	use fs.remove(dirname);
+	if dir is not empty, there would be err
+	use unlink to delete all the files inside the dir first
 
 **05_07: Readable file streams
++ create a read stream from a file
+	var stream = fs.createReadStream(filepath, UTF-8)
++ basic workflow
+	stream.once('data', function) //beginning
+	stream.on('data', function) // listening data event
+	stream.on('end', function) // on end event
 
 **05_08: Writable file streams
